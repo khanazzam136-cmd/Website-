@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en-IN">
+<head>
+<meta charset="utf-8">
+<meta name="color-scheme" content="light dark">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Meetha Oven – Cakes and bakes made to order (Demo)</title>
+<style>
+:root{
+  --bg:#FBF9F4;--surface:#FFFFFF;--ink:#1F1D3A;--muted:#55527A;--border:#6B6890;--line:#DAD6E6;
+  --brand:#2B2A5B;--brand-ink:#FFFFFF;--pista:#DDEBC9;--bad:#A12A18;--ph:#FFE08A;
+  box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#14132B;--surface:#1E1D3F;--ink:#F3F1FA;--muted:#B9B6D4;--border:#8D8AB5;--line:#3A3868;--brand:#F2B632;--brand-ink:#2A1F00;--pista:#2B3A25;--bad:#FF9C8A;--ph:#5A4A10}}
+:root[data-theme="dark"]{--bg:#14132B;--surface:#1E1D3F;--ink:#F3F1FA;--muted:#B9B6D4;--border:#8D8AB5;--line:#3A3868;--brand:#F2B632;--brand-ink:#2A1F00;--pista:#2B3A25;--bad:#FF9C8A;--ph:#5A4A10}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-padding-bottom:240px}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0;background:var(--bg);color:var(--ink);font:18px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+h1,h2,h3{line-height:1.2;margin:0 0 .5em}
+h1{font-size:clamp(32px,6vw,52px)}h2{font-size:clamp(24px,4vw,32px)}h3{font-size:19px}
+h1:focus,h2:focus{outline:none}
+a{color:var(--brand)}
+.wrap{max-width:980px;margin:0 auto;padding:0 20px}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.skip{position:absolute;left:12px;top:-60px;background:var(--brand);color:var(--brand-ink);padding:10px 16px;border-radius:8px;z-index:30}
+.skip:focus{top:8px}
+:focus-visible{outline:3px solid var(--brand);outline-offset:3px}
+.demo{background:var(--ph);color:var(--ink);padding:8px 20px;font-size:15px;text-align:center}
+mark.ph{background:var(--ph);color:var(--ink);padding:0 4px;border-radius:4px}
+header.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:14px 0}
+.logo{font-weight:800;font-size:22px;color:var(--ink);text-decoration:none}
+nav a{display:inline-block;padding:10px 12px;color:var(--ink);font-weight:600}
+nav a[aria-current="page"]{text-decoration:none;border-bottom:3px solid var(--brand)}
+.btn{display:inline-block;min-height:44px;border:2px solid var(--brand);background:var(--brand);color:var(--brand-ink);font:600 17px system-ui,sans-serif;border-radius:10px;padding:9px 20px;cursor:pointer;text-align:center;text-decoration:none}
+.btn.ghost{background:transparent;color:var(--ink);border-color:var(--border)}
+.btn.sm{min-height:44px;padding:6px 14px;font-size:16px}
+.hero{display:grid;gap:24px;align-items:center;padding:20px 0 36px}
+@media(min-width:760px){.hero{grid-template-columns:1.4fr 1fr}}
+.hero p{max-width:50ch;color:var(--muted)}
+.hero img{width:100%;max-width:320px;justify-self:center;border-radius:24px}
+section{padding:24px 0}
+.note{color:var(--muted);font-size:16px}
+.menu{display:grid;gap:14px;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));margin-top:14px}
+.item{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:14px;display:flex;gap:14px}
+.item img{width:84px;height:84px;border-radius:12px;flex:none}
+.item .b{flex:1;min-width:0}
+.item p{margin:0 0 6px;color:var(--muted);font-size:16px}
+.row{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.qty{display:flex;align-items:center;gap:6px}
+.qty button{width:44px;height:44px;border-radius:50%;border:2px solid var(--border);background:transparent;color:var(--ink);font-size:22px;line-height:1;cursor:pointer}
+.qty output{min-width:22px;text-align:center;font-weight:700}
+.grid2{display:grid;gap:20px;margin-top:14px}
+@media(min-width:800px){.grid2{grid-template-columns:1fr 1fr}}
+.panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px}
+.line{display:flex;justify-content:space-between;gap:12px;padding:6px 0;border-bottom:1px solid var(--line)}
+.total{display:flex;justify-content:space-between;font-size:22px;font-weight:700;padding-top:12px}
+label,legend{display:block;font-weight:700;margin:16px 0 4px;padding:0}
+.panel>form>label:first-of-type{margin-top:0}
+.hint{margin:0 0 6px;color:var(--muted);font-size:15px}
+input[type=text],input[type=tel],textarea{width:100%;font:18px system-ui,sans-serif;padding:10px 12px;min-height:44px;border-radius:8px;border:2px solid var(--border);background:var(--bg);color:var(--ink)}
+textarea{min-height:76px;resize:vertical}
+input[aria-invalid=true],textarea[aria-invalid=true]{border-color:var(--bad)}
+fieldset{border:0;margin:16px 0 0;padding:0;min-width:0}
+.opt{display:flex;gap:10px;align-items:center;min-height:44px;font-weight:400;margin:0}
+.opt input{width:24px;height:24px;flex:none;accent-color:var(--brand)}
+.fe{color:var(--bad);font-weight:600;margin:4px 0 0;font-size:16px}
+.fe:empty{display:none}
+#errsum{border:2px solid var(--bad);border-radius:10px;padding:10px 14px;margin-bottom:14px;color:var(--ink)}
+#errsum:empty{display:none}
+.consent{display:flex;gap:10px;align-items:flex-start;font-weight:400;margin-top:18px}
+.consent input{width:24px;height:24px;flex:none;margin-top:3px;accent-color:var(--brand)}
+.done{background:var(--pista);border-radius:16px;padding:24px}
+.oid{font:700 24px ui-monospace,monospace}
+.card{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:20px;margin:14px 0}
+dl{margin:0}dt{font-weight:700;margin-top:12px}dd{margin:0;color:var(--ink)}
+.prose{max-width:70ch}.prose h2{margin-top:1.4em;font-size:22px}
+table{border-collapse:collapse;width:100%}th,td{text-align:left;vertical-align:top;padding:10px;border-bottom:1px solid var(--border);font-size:16px}
+.tag{display:inline-block;font-weight:700;font-size:14px;border:2px solid var(--border);border-radius:999px;padding:0 10px;white-space:nowrap}
+.tbl{overflow-x:auto}
+footer{border-top:1px solid var(--border);margin-top:36px;padding:24px 0 28px;font-size:16px}
+footer ul{list-style:none;margin:0 0 12px;padding:0;display:flex;gap:4px 18px;flex-wrap:wrap}
+footer a,footer button.lnk{display:inline-block;padding:10px 0;font:inherit;color:var(--brand);background:none;border:0;text-decoration:underline;cursor:pointer}
+#cb{position:fixed;left:0;right:0;bottom:0;background:var(--surface);color:var(--ink);border-top:3px solid var(--brand);padding:16px 20px calc(16px + env(safe-area-inset-bottom,0px));z-index:20}
+#cb .in{max-width:980px;margin:0 auto}
+#cb p{margin:0 0 12px}
+#cb .btns{display:flex;gap:10px;flex-wrap:wrap}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#main" id="skip">Skip to main content</a>
+
+<section id="cb" aria-label="Cookie notice" hidden>
+  <div class="in">
+    <h2 style="font-size:20px">Cookies on this site</h2>
+    <p>This site currently uses no tracking or advertising cookies. It only stores your choice here and, when you place an order, your order details on your own device, which the site needs to work. If the shop adds visit statistics later, they will stay off unless you accept them. <a href="#/cookies">Read the cookie policy</a>.</p>
+    <div class="btns">
+      <button class="btn ghost" type="button" id="cbReject">Reject optional cookies</button>
+      <button class="btn ghost" type="button" id="cbAccept">Accept optional cookies</button>
+    </div>
+  </div>
+</section>
+
+<div class="demo" role="note">Demo site. Highlighted <mark class="ph">[bracketed text]</mark> must be replaced with your real details before launch. Placeholders left: <b id="phc">0</b>. Delete this bar and the Checklist page before going live.</div>
+
+<div class="wrap">
+  <header class="top">
+    <a class="logo" href="#/home" id="logo">Meetha Oven</a>
+    <nav aria-label="Main">
+      <a href="#/home" data-nav="home">Menu and order</a>
+      <a href="#/about" data-nav="about">Contact</a>
+      <a href="#/checklist" data-nav="checklist">Checklist</a>
+    </nav>
+  </header>
+</div>
+
+<main id="main">
+<noscript><div class="wrap"><p class="card">This site needs JavaScript to place an order. Please contact us by phone instead: <mark class="ph">[phone number]</mark>.</p></div></noscript>
+
+<!-- HOME -->
+<div class="view" id="v-home" data-title="Menu and order">
+<div class="wrap">
+  <div class="hero">
+    <div>
+      <h1 tabindex="-1">Cakes and bakes, made to order</h1>
+      <p>Choose what you would like and tell us where to bring it. We call you to confirm every order before we start baking. Nothing is charged online: you pay when you receive your order.</p>
+      <button class="btn" type="button" data-scroll="menuH">Start your order</button>
+    </div>
+    <img id="heroImg" width="320" height="320" alt="Drawing of a layered chocolate cake with pink icing and a cherry on top">
+  </div>
+
+  <section aria-labelledby="menuH">
+    <h2 id="menuH" tabindex="-1">Menu</h2>
+    <p class="note">Prices are in rupees and <mark class="ph">[include / exclude]</mark> taxes. The pictures are our own drawings, not photos of the actual products.</p>
+    <p class="note"><b>Allergens:</b> <mark class="ph">[list the allergens your kitchen handles, for example milk, eggs, wheat, nuts]</mark>. Please ask us before ordering if you have an allergy.</p>
+    <div class="menu" id="menuList"></div>
+    <p class="sr" id="live" aria-live="polite"></p>
+  </section>
+
+  <section aria-labelledby="orderH">
+    <div id="orderWrap">
+      <h2 id="orderH">Your order</h2>
+      <div class="grid2">
+        <div class="panel" aria-labelledby="cartHead">
+          <h3 id="cartHead" tabindex="-1">Items</h3>
+          <div id="cartLines"></div>
+          <div class="total"><span>Total</span><span id="cartTotal">₹0</span></div>
+          <p class="fe" id="e-cart" role="alert"></p>
+        </div>
+        <div class="panel">
+          <div id="errsum" role="alert" tabindex="-1"></div>
+          <form id="f" novalidate>
+            <label for="name">Your name</label>
+            <p class="hint" id="h-name">So we know who the order is for.</p>
+            <input type="text" id="name" autocomplete="name" maxlength="80" required aria-required="true" aria-describedby="h-name e-name">
+            <p class="fe" id="e-name"></p>
+
+            <label for="phone">Mobile number</label>
+            <p class="hint" id="h-phone">So we can call you to confirm your order. We will not use it for promotions.</p>
+            <input type="tel" id="phone" autocomplete="tel" inputmode="tel" maxlength="20" required aria-required="true" aria-describedby="h-phone e-phone">
+            <p class="fe" id="e-phone"></p>
+
+            <fieldset>
+              <legend>How would you like to get your order?</legend>
+              <label class="opt"><input type="radio" name="mode" value="Home delivery" checked> Home delivery</label>
+              <label class="opt"><input type="radio" name="mode" value="Pickup from shop"> Pickup from the shop</label>
+            </fieldset>
+
+            <div id="addrBox">
+              <label for="addr">Delivery address</label>
+              <p class="hint" id="h-addr">Only needed for delivery. We do not ask for it if you pick up.</p>
+              <textarea id="addr" autocomplete="street-address" maxlength="300" aria-describedby="h-addr e-addr"></textarea>
+              <p class="fe" id="e-addr"></p>
+            </div>
+
+            <label for="note">Note for the baker (optional)</label>
+            <p class="hint" id="h-note">For example, a message on the cake. Please do not write health or other sensitive details here.</p>
+            <textarea id="note" maxlength="200" aria-describedby="h-note"></textarea>
+
+            <label class="consent" for="consent">
+              <input type="checkbox" id="consent" required aria-required="true" aria-describedby="e-consent">
+              <span>I agree that <mark class="ph">[Registered business name]</mark> may use my name, mobile number and, for delivery, my address only to confirm, prepare and deliver this order. I can withdraw this at any time by contacting <mark class="ph">[privacy contact email]</mark>. <a href="#/privacy">Read the privacy notice</a>.</span>
+            </label>
+            <p class="fe" id="e-consent"></p>
+
+            <p style="margin-top:18px"><button class="btn" type="submit">Place order</button></p>
+            <p class="hint">You pay when you receive your order, in cash or by UPI.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="done" id="done" hidden>
+      <h2 id="doneH" tabindex="-1">Order received</h2>
+      <p>Your order number is <span class="oid" id="doneId"></span>. We will call you on the number you gave to confirm it. Nothing has been charged.</p>
+      <p><button class="btn" type="button" id="again">Make another order</button></p>
+      <p class="note">Making another order clears the details from the form.</p>
+    </div>
+  </section>
+</div>
+</div>
+
+<!-- ABOUT -->
+<div class="view" id="v-about" data-title="Contact and business details" hidden>
+<div class="wrap prose">
+  <h1 tabindex="-1">Contact and business details</h1>
+  <div class="card"><dl>
+    <dt>Business name</dt><dd><mark class="ph">[Registered business name]</mark></dd>
+    <dt>Owner or proprietor</dt><dd><mark class="ph">[Full name]</mark></dd>
+    <dt>Address</dt><dd><mark class="ph">[Full shop or kitchen address with PIN code]</mark></dd>
+    <dt>Phone</dt><dd><mark class="ph">[Phone number]</mark> · <mark class="ph">[opening hours]</mark></dd>
+    <dt>Email</dt><dd><mark class="ph">[Business email address]</mark></dd>
+    <dt>FSSAI licence or registration number</dt><dd><mark class="ph">[14-digit number]</mark></dd>
+    <dt>GSTIN (only if you are registered)</dt><dd><mark class="ph">[GSTIN]</mark></dd>
+    <dt>Delivery area and lead time</dt><dd><mark class="ph">[areas you deliver to]</mark> · <mark class="ph">[how much notice you need]</mark></dd>
+    <dt>Grievance officer</dt><dd><mark class="ph">[Name]</mark>, <mark class="ph">[email]</mark>, <mark class="ph">[phone]</mark>. We acknowledge complaints within <mark class="ph">[48 hours]</mark> and aim to resolve them within <mark class="ph">[one month]</mark>.</dd>
+  </dl></div>
+  <p class="note">We do not show customer reviews, ratings or customer counts on this site.</p>
+</div>
+</div>
+
+<!-- REFUNDS -->
+<div class="view" id="v-refunds" data-title="Refund and cancellation policy" hidden>
+<div class="wrap prose">
+  <h1 tabindex="-1">Refund and cancellation policy</h1>
+  <p class="note">Last updated: <mark class="ph">[date]</mark></p>
+  <h2>Our cakes are made to order</h2>
+  <p>Because we make each order for you, we cannot refund an order simply because you changed your mind after baking has started.</p>
+  <h2>Cancelling</h2>
+  <p>You can cancel for free up to <mark class="ph">[number of hours]</mark> before your delivery or pickup time, or until we tell you baking has started. Call or message us on the number on the <a href="#/about">contact page</a>.</p>
+  <h2>When you can get a refund or a replacement</h2>
+  <ul>
+    <li>Your order did not arrive.</li>
+    <li>An item is wrong or missing.</li>
+    <li>An item is not fit to eat, for example it is spoiled or damaged.</li>
+  </ul>
+  <p>Tell us within <mark class="ph">[24 hours]</mark> of delivery or pickup, and send a photo if you can. We will reply within <mark class="ph">[48 hours]</mark>.</p>
+  <h2>How refunds are paid</h2>
+  <p>Because you pay on delivery or pickup, we return money in the same way you paid us (cash, or UPI to the number or ID you give us) within <mark class="ph">[number of days]</mark> of approving the refund.</p>
+  <h2>Your legal rights</h2>
+  <p>This policy does not take away any rights you have under Indian consumer law. If we cannot settle a problem, contact our grievance officer on the <a href="#/about">contact page</a>.</p>
+</div>
+</div>
+
+<!-- PRIVACY -->
+<div class="view" id="v-privacy" data-title="Privacy notice" hidden>
+<div class="wrap prose">
+  <h1 tabindex="-1">Privacy notice</h1>
+  <p class="note">Last updated: <mark class="ph">[date]</mark>. Written for <mark class="ph">[Registered business name]</mark> (“we”).</p>
+  <h2>What we collect, and why</h2>
+  <ul>
+    <li><b>Name and mobile number:</b> to confirm your order by phone and to hand it over.</li>
+    <li><b>Delivery address:</b> only if you choose delivery, so we can bring your order.</li>
+    <li><b>Your note and order items:</b> to make your order the way you asked.</li>
+  </ul>
+  <p>We do not ask for your email, date of birth, location, or any payment or bank details. We do not use your details for promotions.</p>
+  <h2>Our basis for using it</h2>
+  <p>You agree when you tick the box before placing an order. Agreeing is voluntary, but we cannot take an online order without these details.</p>
+  <h2>Who sees it</h2>
+  <p>Our staff, and a delivery person if one brings your order (they see your name, number and address). We do not sell your data or share it with advertisers. <mark class="ph">[Name any service you use to store orders, such as a spreadsheet or order app]</mark>.</p>
+  <h2>How long we keep it</h2>
+  <p>We keep order details for <mark class="ph">[period, for example 12 months]</mark>, and longer only where the law requires records (for example tax records). Then we delete it.</p>
+  <h2>Your rights</h2>
+  <p>You can ask us to show you what we hold, correct it, or delete it, and you can withdraw your consent at any time, as easily as you gave it. Write to <mark class="ph">[privacy contact email]</mark>. We will reply within <mark class="ph">[number of days]</mark>. If you are not satisfied, you can complain to the Data Protection Board of India after contacting us first.</p>
+  <h2>Children</h2>
+  <p>If you are under 18, please ask a parent or guardian to place the order for you.</p>
+  <h2>Cookies and tracking</h2>
+  <p>We use no tracking tools on this site. See the <a href="#/cookies">cookie policy</a>.</p>
+  <p class="note"><b>Demo only:</b> in this demo, orders are saved only in your own browser, so the shop never receives them. Replace this note with where a real site stores orders.</p>
+</div>
+</div>
+
+<!-- TERMS -->
+<div class="view" id="v-terms" data-title="Terms and conditions" hidden>
+<div class="wrap prose">
+  <h1 tabindex="-1">Terms and conditions</h1>
+  <p class="note">Last updated: <mark class="ph">[date]</mark></p>
+  <h2>Who we are</h2>
+  <p>This website is run by <mark class="ph">[Registered business name]</mark>. Our details are on the <a href="#/about">contact page</a>.</p>
+  <h2>Orders</h2>
+  <p>Placing an order on this site is a request. Your order is accepted when we confirm it by phone. We may decline an order, for example if we cannot deliver to your address in time, and we will tell you.</p>
+  <h2>Prices and payment</h2>
+  <p>Prices are in rupees. Taxes are <mark class="ph">[included / excluded]</mark>. Delivery charge: <mark class="ph">[amount or “none”]</mark>. You pay when you receive your order, in cash or by UPI. We do not take online card or bank payments.</p>
+  <h2>Delivery and pickup</h2>
+  <p>We deliver to <mark class="ph">[areas]</mark>. Times we give are estimates. Please be available at the address or the shop at the agreed time.</p>
+  <h2>Allergens and product pictures</h2>
+  <p>Allergen information is shown on the menu. Pictures are illustrations, and the real product may look different.</p>
+  <h2>Cancellations and refunds</h2>
+  <p>See our <a href="#/refunds">refund and cancellation policy</a>.</p>
+  <h2>Your rights and the law</h2>
+  <p>Nothing here limits your rights under Indian law. These terms are governed by the laws of India. Courts in <mark class="ph">[city, state]</mark> can hear disputes, unless the law gives you the right to go to another court.</p>
+  <h2>Changes</h2>
+  <p>We may update these terms. The date at the top shows the latest version. An order is covered by the terms that applied when you placed it.</p>
+</div>
+</div>
+
+<!-- COOKIES -->
+<div class="view" id="v-cookies" data-title="Cookie policy" hidden>
+<div class="wrap prose">
+  <h1 tabindex="-1">Cookie policy</h1>
+  <p class="note">Last updated: <mark class="ph">[date]</mark></p>
+  <p>This site sets <b>no cookies</b> and loads <b>no analytics, advertising or social media tools</b>. It uses your browser’s local storage for two things the site needs to work:</p>
+  <div class="tbl"><table>
+    <thead><tr><th scope="col">Name</th><th scope="col">What it holds</th><th scope="col">Type</th></tr></thead>
+    <tbody>
+      <tr><td>mo_cookie</td><td>Your choice from the cookie notice</td><td>Necessary</td></tr>
+      <tr><td>mo_orders</td><td>Demo only: orders placed in this browser</td><td>Necessary</td></tr>
+    </tbody>
+  </table></div>
+  <h2>Optional cookies</h2>
+  <p>There are none at the moment. If the shop adds visit statistics later, they will load only after you choose “Accept optional cookies”.</p>
+  <h2>Changing your choice</h2>
+  <p>Use “Cookie settings” at the bottom of any page. You can also clear this site’s data in your browser settings.</p>
+</div>
+</div>
+
+<!-- CHECKLIST -->
+<div class="view" id="v-checklist" data-title="Launch checklist" hidden>
+<div class="wrap">
+  <h1 tabindex="-1">Launch checklist</h1>
+  <p class="note prose">For you, the designer. “Done” means built into this demo. “Your input” means the shop owner must supply or confirm something. This is a practical checklist, not legal advice: have a lawyer or CA review the policies before launch.</p>
+  <div class="tbl"><table>
+    <thead><tr><th scope="col">Item</th><th scope="col">Status</th><th scope="col">What was done or what you must do</th></tr></thead>
+    <tbody>
+      <tr><td>Colour contrast</td><td><span class="tag">Done</span></td><td>Every text and control colour pair was calculated against WCAG 2.2 AA in both light and dark mode. The lowest text ratio is 5.85:1 (needs 4.5) and the lowest control or border ratio is 4.94:1 (needs 3). Recheck whenever you change colours.</td></tr>
+      <tr><td>Alt text on images</td><td><span class="tag">Done</span></td><td>Every image has a description. If you add photos, write what each one shows. Use empty alt text only for purely decorative images.</td></tr>
+      <tr><td>Refund policy</td><td><span class="tag">Your input</span></td><td>Page written. Fill the highlighted time limits with what you will really do.</td></tr>
+      <tr><td>Privacy policy</td><td><span class="tag">Your input</span></td><td>Page written to match the data this form collects. Fill the highlighted retention period and storage tool.</td></tr>
+      <tr><td>Fix accessibility</td><td><span class="tag">Done</span></td><td>Skip link, headings and landmarks, visible focus, large touch targets, labelled fields, error summary, screen reader announcements, dark mode, reduced motion. Still test with only a keyboard and with a free screen reader (NVDA, or TalkBack on Android) before launch.</td></tr>
+      <tr><td>Remove fake reviews</td><td><span class="tag">Done</span></td><td>No reviews, star ratings, counts or testimonials. Add real ones later only with the customer’s permission.</td></tr>
+      <tr><td>Terms and conditions</td><td><span class="tag">Your input</span></td><td>Page written. Fill delivery area, charges and court city.</td></tr>
+      <tr><td>Check third-party embeds</td><td><span class="tag">Done</span></td><td>None. No maps, videos, social feeds, chat widgets or web fonts (the site uses fonts already on the visitor’s device). Add an embed only if you also update the privacy and cookie pages.</td></tr>
+      <tr><td>Check copyright on images</td><td><span class="tag">Done</span></td><td>All pictures are drawings made for this demo. For a real shop, use your own photos of your own products, never images copied from Google or other bakeries.</td></tr>
+      <tr><td>Cookies policy</td><td><span class="tag">Done</span></td><td>Page lists exactly what the site stores. Update it if you add any tool.</td></tr>
+      <tr><td>Check tracking</td><td><span class="tag">Done</span></td><td>No analytics, ad pixels or fingerprinting. To verify: open the browser’s developer tools, go to the Network tab, reload, and confirm that no requests go to other websites.</td></tr>
+      <tr><td>Form consent</td><td><span class="tag">Done</span></td><td>Unticked checkbox that must be ticked, plain-language purpose, how to withdraw, link to the privacy notice. No pre-ticked boxes and no promotions.</td></tr>
+      <tr><td>Check local laws</td><td><span class="tag">Your input</span></td><td>Check with a professional: India’s Digital Personal Data Protection Rules 2025 (the main notice and consent duties apply from mid-May 2027, so building to them now is sensible), the Consumer Protection (E-Commerce) Rules 2020 (seller details, grievance officer, refund terms), FSSAI licensing and labelling for food, and GST if you are registered.</td></tr>
+      <tr><td>Clear button labels</td><td><span class="tag">Done</span></td><td>Buttons say what they do: “Add one Chocolate truffle cake”, “Reject optional cookies”, “Place order”.</td></tr>
+      <tr><td>Check for cookie consent</td><td><span class="tag">Done</span></td><td>Notice with equally prominent Reject and Accept buttons, choice remembered, reopened from “Cookie settings”. The site has no optional cookies yet, and any future tool must load only when the choice allows it.</td></tr>
+      <tr><td>Add real business details</td><td><span class="tag">Your input</span></td><td>Contact page has highlighted slots for name, address, phone, email, FSSAI number, GSTIN and grievance officer. The bar at the top counts what is left. Never invent details.</td></tr>
+      <tr><td>Only collect necessary data</td><td><span class="tag">Done</span></td><td>Name, mobile, address (delivery only, cleared if you switch to pickup) and an optional note. No email, no date of birth, no location, no payment details.</td></tr>
+      <tr><td>Keyboard-friendly forms</td><td><span class="tag">Done</span></td><td>Every field has a visible label, correct input type and autocomplete, Enter submits, errors are listed and focus moves to the first problem, radios are grouped, nothing traps focus.</td></tr>
+      <tr><td>Remove unsupported claims</td><td><span class="tag">Done</span></td><td>No “best”, “freshest”, “100% natural” or similar. Only describe what you can prove, and confirm delivery times and allergens before publishing.</td></tr>
+    </tbody>
+  </table></div>
+</div>
+</div>
+</main>
+
+<div class="wrap">
+<footer>
+  <ul aria-label="Legal and help">
+    <li><a href="#/about">Contact and business details</a></li>
+    <li><a href="#/refunds">Refund policy</a></li>
+    <li><a href="#/privacy">Privacy notice</a></li>
+    <li><a href="#/terms">Terms and conditions</a></li>
+    <li><a href="#/cookies">Cookie policy</a></li>
+    <li><button class="lnk" type="button" id="cbOpen">Cookie settings</button></li>
+  </ul>
+  <p class="note">© <mark class="ph">[year]</mark> <mark class="ph">[Registered business name]</mark>. Drawings made for this demo. All names, prices and details are samples.</p>
+</footer>
+</div>
+
+<script>
+var ITEMS=[
+ {id:1,name:"Chocolate truffle cake",d:"Half kg",price:550,k:"cake",c1:"#4A2C1A",c2:"#7A4A2E",alt:"Drawing of a layered chocolate cake with a cherry on top"},
+ {id:2,name:"Butterscotch cake",d:"Half kg",price:480,k:"cake",c1:"#C8872B",c2:"#F2D79A",alt:"Drawing of a golden layered cake with a cherry on top"},
+ {id:3,name:"Fruit cake",d:"Half kg",price:620,k:"cake",c1:"#F2E3C4",c2:"#E8A5A5",alt:"Drawing of a cream layered cake with pink icing"},
+ {id:4,name:"Cupcakes, box of 6",d:"Assorted",price:300,k:"cup",c1:"#7A4A2E",c2:"#F2B8C6",alt:"Drawing of a cupcake with pink frosting"},
+ {id:5,name:"Brownies, box of 4",d:"With walnuts",price:240,k:"sq",c1:"#4A2C1A",c2:"#C8A27A",alt:"Drawing of four square brownies"},
+ {id:6,name:"Garlic bread",d:"With dip",price:120,k:"loaf",c1:"#C98F4B",c2:"#8A5A22",alt:"Drawing of a loaf of garlic bread with slash marks"},
+ {id:7,name:"Pineapple cake",d:"Half kg",price:450,k:"cake",c1:"#E8C547",c2:"#FFF3C4",alt:"Drawing of a yellow layered cake with pale icing and a cherry on top"},
+ {id:8,name:"Red velvet cake",d:"Half kg",price:600,k:"cake",c1:"#8E1B2B",c2:"#F6EDEA",alt:"Drawing of a dark red layered cake with white icing and a cherry on top"},
+ {id:9,name:"Chocolate chip cookies, box of 6",d:"Crunchy edges",price:200,k:"cookie",c1:"#C98F4B",c2:"#4A2C1A",alt:"Drawing of three round cookies with chocolate chips"},
+ {id:10,name:"Milk bread loaf",d:"Soft sandwich loaf",price:60,k:"loaf",c1:"#E3B26B",c2:"#B9803A",alt:"Drawing of a loaf of bread with slash marks"}
+];
+var $=function(id){return document.getElementById(id)};
+var rupee=function(n){return "₹"+n.toLocaleString("en-IN")};
+var esc=function(s){return String(s).replace(/[&<>"']/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]})};
+var cart={},mem=[],firstRoute=true;
+
+function art(k,c1,c2){
+  var s='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120"><rect width="120" height="120" fill="#DDEBC9"/><ellipse cx="60" cy="100" rx="50" ry="7" fill="#6B6890"/>';
+  if(k==="cake") s+='<rect x="25" y="62" width="70" height="36" rx="6" fill="'+c1+'"/><rect x="25" y="50" width="70" height="18" rx="9" fill="'+c2+'"/><circle cx="60" cy="43" r="7" fill="#A12A18"/>';
+  if(k==="cup") s+='<path d="M36 66h48l-8 32H44z" fill="'+c1+'"/><circle cx="46" cy="60" r="14" fill="'+c2+'"/><circle cx="74" cy="60" r="14" fill="'+c2+'"/><circle cx="60" cy="48" r="16" fill="'+c2+'"/><circle cx="60" cy="31" r="6" fill="#A12A18"/>';
+  if(k==="sq") s+='<rect x="24" y="56" width="34" height="20" rx="4" fill="'+c1+'"/><rect x="62" y="56" width="34" height="20" rx="4" fill="'+c1+'"/><rect x="24" y="78" width="34" height="20" rx="4" fill="'+c1+'"/><rect x="62" y="78" width="34" height="20" rx="4" fill="'+c1+'"/><circle cx="40" cy="66" r="3" fill="'+c2+'"/><circle cx="78" cy="88" r="3" fill="'+c2+'"/><circle cx="82" cy="66" r="3" fill="'+c2+'"/>';
+  if(k==="loaf") s+='<rect x="18" y="58" width="84" height="38" rx="19" fill="'+c1+'"/><path d="M40 62l-8 30M60 62l-8 30M80 62l-8 30" stroke="'+c2+'" stroke-width="5" stroke-linecap="round"/>';
+  if(k==="cookie") s+='<circle cx="42" cy="76" r="18" fill="'+c1+'"/><circle cx="78" cy="76" r="18" fill="'+c1+'"/><circle cx="60" cy="54" r="18" fill="'+c1+'"/><circle cx="36" cy="72" r="3" fill="'+c2+'"/><circle cx="48" cy="82" r="3" fill="'+c2+'"/><circle cx="74" cy="72" r="3" fill="'+c2+'"/><circle cx="84" cy="82" r="3" fill="'+c2+'"/><circle cx="54" cy="50" r="3" fill="'+c2+'"/><circle cx="66" cy="60" r="3" fill="'+c2+'"/>';
+  return "data:image/svg+xml,"+encodeURIComponent(s+"</svg>");
+}
+$("heroImg").src=art("cake","#4A2C1A","#F2B8C6");
+
+$("menuList").innerHTML=ITEMS.map(function(it){
+  return '<div class="item"><img src="'+art(it.k,it.c1,it.c2)+'" width="84" height="84" alt="'+esc(it.alt)+'"><div class="b"><h3>'+esc(it.name)+'</h3><p>'+esc(it.d)+'</p>'+
+  '<div class="row"><b>'+rupee(it.price)+'</b><div class="qty">'+
+  '<button type="button" data-id="'+it.id+'" data-d="-1"><span aria-hidden="true">−</span><span class="sr">Remove one '+esc(it.name)+'</span></button>'+
+  '<output id="q'+it.id+'" aria-label="Quantity of '+esc(it.name)+'">0</output>'+
+  '<button type="button" data-id="'+it.id+'" data-d="1"><span aria-hidden="true">+</span><span class="sr">Add one '+esc(it.name)+'</span></button>'+
+  '</div></div></div></div>';
+}).join("");
+
+function total(){var n=0,t=0;ITEMS.forEach(function(it){var q=cart[it.id]||0;n+=q;t+=q*it.price});return {n:n,t:t}}
+function renderCart(){
+  var h="";
+  ITEMS.forEach(function(it){var q=cart[it.id]||0;$("q"+it.id).textContent=q;if(q)h+='<div class="line"><span>'+q+' × '+esc(it.name)+'</span><span>'+rupee(q*it.price)+'</span></div>'});
+  $("cartLines").innerHTML=h||'<p class="note">Nothing added yet.</p>';
+  $("cartTotal").textContent=rupee(total().t);
+}
+$("menuList").addEventListener("click",function(e){
+  var b=e.target.closest("button");if(!b)return;
+  var it=ITEMS.filter(function(x){return String(x.id)===b.dataset.id})[0];
+  cart[it.id]=Math.max(0,(cart[it.id]||0)+parseInt(b.dataset.d,10));
+  renderCart();
+  $("e-cart").textContent="";
+  $("live").textContent=cart[it.id]+" × "+it.name+" in your order. Total "+rupee(total().t)+".";
+});
+
+function mode(){return document.querySelector('input[name="mode"]:checked').value}
+document.querySelectorAll('input[name="mode"]').forEach(function(r){r.addEventListener("change",function(){
+  var del=mode()==="Home delivery";$("addrBox").hidden=!del;if(!del){$("addr").value="";setErr("addr","")}
+})});
+function setErr(id,msg){
+  var e=$("e-"+id),f=$(id);if(e)e.textContent=msg;
+  if(f&&f.tagName!=="H3")f.setAttribute("aria-invalid",msg?"true":"false");
+}
+$("errsum").addEventListener("click",function(e){
+  var a=e.target.closest("a");if(!a)return;e.preventDefault();var t=$(a.dataset.f);if(t)t.focus();
+});
+$("f").addEventListener("submit",function(e){
+  e.preventDefault();
+  var errs=[],digits=$("phone").value.replace(/\D/g,"");
+  if(!total().n)errs.push({id:"cartHead",k:"cart",m:"Add at least one item from the menu."});
+  if(!$("name").value.trim())errs.push({id:"name",k:"name",m:"Enter your name."});
+  if(digits.length<10||digits.length>13)errs.push({id:"phone",k:"phone",m:"Enter a valid mobile number, 10 digits."});
+  if(mode()==="Home delivery"&&!$("addr").value.trim())errs.push({id:"addr",k:"addr",m:"Enter your delivery address."});
+  if(!$("consent").checked)errs.push({id:"consent",k:"consent",m:"Tick the box to agree before placing your order."});
+  ["cart","name","phone","addr","consent"].forEach(function(k){setErr(k,"")});
+  if(errs.length){
+    errs.forEach(function(x){setErr(x.k,x.m)});
+    $("errsum").innerHTML="<b>Please fix "+errs.length+(errs.length===1?" problem":" problems")+" before placing your order:</b><ul>"+errs.map(function(x){return '<li><a href="#" data-f="'+x.id+'">'+esc(x.m)+'</a></li>'}).join("")+"</ul>";
+    $(errs[0].id).focus();return;
+  }
+  $("errsum").innerHTML="";
+  var id="MO-"+(1000+Math.floor(Math.random()*9000)),items=[];
+  ITEMS.forEach(function(it){var q=cart[it.id]||0;if(q)items.push({name:it.name,q:q,price:it.price})});
+  var o={id:id,t:Date.now(),name:$("name").value.trim(),phone:digits.slice(-10),mode:mode(),addr:mode()==="Home delivery"?$("addr").value.trim():"",note:$("note").value.trim(),items:items,total:total().t};
+  try{var all=JSON.parse(localStorage.getItem("mo_orders")||"[]");all.push(o);localStorage.setItem("mo_orders",JSON.stringify(all))}catch(err){mem.push(o)}
+  $("doneId").textContent=id;$("orderWrap").hidden=true;$("done").hidden=false;$("doneH").focus();
+});
+$("again").addEventListener("click",function(){
+  cart={};renderCart();$("f").reset();$("addrBox").hidden=false;
+  ["cart","name","phone","addr","consent"].forEach(function(k){setErr(k,"")});
+  $("done").hidden=true;$("orderWrap").hidden=false;$("orderH").scrollIntoView();
+});
+
+/* cookie choice: nothing optional is loaded in this demo; any future analytics must be started only inside loadOptional() */
+function loadOptional(){/* add analytics here, only runs after "Accept" */}
+function getChoice(){try{return JSON.parse(localStorage.getItem("mo_cookie"))}catch(e){return null}}
+function setChoice(a){try{localStorage.setItem("mo_cookie",JSON.stringify({optional:a}))}catch(e){}if(a)loadOptional()}
+function showCb(){$("cb").hidden=false;document.body.style.paddingBottom=$("cb").offsetHeight+"px"}
+function hideCb(){$("cb").hidden=true;document.body.style.paddingBottom="";}
+var reopened=false;
+function closeCb(a){setChoice(a);hideCb();if(reopened){reopened=false;$("cbOpen").focus()}}
+$("cbReject").addEventListener("click",function(){closeCb(false)});
+$("cbAccept").addEventListener("click",function(){closeCb(true)});
+$("cbOpen").addEventListener("click",function(){reopened=true;showCb();$("cbReject").focus()});
+var ch=getChoice();if(!ch)showCb();else if(ch.optional)loadOptional();
+
+/* navigation */
+function route(){
+  var v=(location.hash.replace("#/","")||"home");if(!$("v-"+v))v="home";
+  document.querySelectorAll(".view").forEach(function(x){x.hidden=x.id!=="v-"+v});
+  document.querySelectorAll("nav a").forEach(function(a){if(a.dataset.nav===v)a.setAttribute("aria-current","page");else a.removeAttribute("aria-current")});
+  var view=$("v-"+v);document.title=view.dataset.title+" – "+"Meetha Oven (Demo)";
+  window.scrollTo(0,0);
+  if(!firstRoute){var h=view.querySelector("h1");if(h)h.focus()}
+  firstRoute=false;
+}
+window.addEventListener("hashchange",route);
+document.addEventListener("click",function(e){
+  var s=e.target.closest("[data-scroll]");if(!s)return;var t=$(s.dataset.scroll);if(t){t.scrollIntoView();t.focus()}
+});
+$("skip").addEventListener("click",function(e){e.preventDefault();var m=$("main"),v=m.querySelector(".view:not([hidden]) h1");if(v)v.focus()});
+$("phc").textContent=document.querySelectorAll("main mark.ph, footer mark.ph").length;
+renderCart();route();
+</script>
+</body>
+</html>
